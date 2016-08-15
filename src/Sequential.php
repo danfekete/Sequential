@@ -22,7 +22,7 @@ class Sequential
     /**
      * @var bool
      */
-    private $sharedMutex;
+    protected $sharedMutex;
     /**
      * @var int
      */
@@ -42,13 +42,24 @@ class Sequential
     }
 
     /**
+     * Get the key name for the mutex
+     * @param Bucket $bucket
+     * @return string
+     */
+    protected function getMutexKey(Bucket $bucket)
+    {
+        $semName = $this->sharedMutex ? 'seq' : $bucket->key();
+        return $semName;
+    }
+
+    /**
      * Create a Mutex from the bucket
      * @param Bucket $bucket
      * @return Mutex
      */
     protected function getMutex(Bucket $bucket)
     {
-        $semName = $this->sharedMutex ? 'seq' : $bucket->key();
+        $semName = $this->getMutexKey($bucket);
         return new SemaphoreMutex(sem_get(ftok(__FILE__, $semName)));
     }
 
