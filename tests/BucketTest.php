@@ -1,13 +1,12 @@
 <?php
+use danfekete\Sequential\Bucket;
+
 /**
  * Copyright (c) 2016, VOOV LLC.
  * All rights reserved.
  * Written by Daniel Fekete
  * daniel.fekete@voov.hu
  */
-
-namespace danfekete\Sequential;
-
 
 class BucketTest extends \PHPUnit_Framework_TestCase
 {
