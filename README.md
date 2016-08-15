@@ -75,3 +75,18 @@ The data providers implement the `DataProvider` interface. The interface has thr
 
 You can use the default SQLite data provider or you can roll your own with any kind of advanced of logic. Buckets can contain any amount of data that can be used to query the last ID.
 
+
+
+## Distributed use
+
+One of the hardest part of sequential ID generation is distributed use. To enable this, there is a specialized version of the main class called `DistributedSequential` which uses the RedLock DLM algorithm from Redis. You'll need one more Redis servers to use and also the Predis library.
+
+```php
+$c1 = new Predis\Client('tcp://10.0.0.1:6379');
+$c2 = new Predis\Client('tcp://10.0.0.2:6379');
+$data = new SQLite();
+$seq = new DistributedSequential([$c1, $c2], $data);
+$bucket = new Bucket($userID);
+$nextID = $seq->generate($bucket);
+```
+
