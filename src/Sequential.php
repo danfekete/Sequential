@@ -66,16 +66,19 @@ class Sequential
     /**
      * Generate the next ID in the Bucket
      * @param Bucket $bucket
+     * @param null|callable $callback
      * @return int
      */
-    public function generate(Bucket $bucket)
+    public function generate(Bucket $bucket, $callback = null)
     {
-        return $this->getMutex($bucket)->synchronized(function() use ($bucket) {
+        return $this->getMutex($bucket)->synchronized(function() use ($bucket, $callback) {
             $lastID = $this->dataProvider->getLastID($bucket);
             $lastID += $this->incr;
 
             // store the new ID
             $this->dataProvider->store($bucket, $lastID);
+            // if we have a callable set, run it now, while still in the synchronized environment
+            if($callback) $callback($lastID);
 
             // return the new ID for use
             return $lastID;

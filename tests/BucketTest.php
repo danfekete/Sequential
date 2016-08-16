@@ -8,7 +8,7 @@ use danfekete\Sequential\Bucket;
  * daniel.fekete@voov.hu
  */
 
-class BucketTest extends \PHPUnit_Framework_TestCase
+class BucketTest extends PHPUnit_Framework_TestCase
 {
 
     public function testGetData()
