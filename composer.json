@@ -11,6 +11,7 @@
   ],
   "require": {
     "php": ">=5.6",
+    "symfony/event-dispatcher": "2.8.* || 3.1.*",
     "illuminate/support": "5.3.*",
     "malkusch/lock": "1.0.*"
   },
